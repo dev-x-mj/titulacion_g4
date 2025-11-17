@@ -22,8 +22,8 @@ def fetch_config():
         st.error(f"Ocurrió un error al cargar la configuración: {e}")
         st.stop()
         
-# --- NUEVO (Paso 4) ---
-@st.cache_data(ttl=3600) # Cachear por 1 hora
+
+@st.cache_data(ttl=3600) 
 def fetch_global_kpis():
     """
     Obtiene las métricas KPIs globales desde el nuevo endpoint.
@@ -51,7 +51,7 @@ def fetch_forecast(category, region, model_type, steps, frequency_code):
             "model_type": model_type.lower(), 
             "category": category, 
             "region": region,
-            "frequency": frequency_code # <-- NUEVO
+            "frequency": frequency_code
         })
         eval_response.raise_for_status()
         metrics = eval_response.json()
