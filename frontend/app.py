@@ -15,7 +15,7 @@ st.set_page_config(
 #Ocultar alementos por defecto de la plantilla
 hide_streamlit_style = """
             <style>
-            #MainMenu {visibility: hidden;}
+            MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
             </style>
