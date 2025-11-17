@@ -1,96 +1,118 @@
-Proyecto de Tesis: Dashboard de Pronóstico de Ventas v2.0
+Markdown
 
-Este proyecto es un sistema de analítica de software completo para el pronóstico de demanda, desarrollado como parte de un trabajo de titulación. La aplicación implementa una arquitectura de software desacoplada (Backend/Frontend) para predecir las ventas de una cadena de retail utilizando modelos estadísticos (SARIMA) y de Machine Learning (XGBoost).
+# Demand Planning: Sistema de Pronóstico de Ventas y Optimización de Inventario
 
-Características Principales
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688)
+![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-FF4B4B)
+![XGBoost](https://img.shields.io/badge/ML-XGBoost-orange)
+![Statsmodels](https://img.shields.io/badge/Stats-SARIMA-purple)
 
-Arquitectura Desacoplada: Un backend (FastAPI) para la lógica y el modelado, y un frontend (Streamlit) para la visualización.
-
-Comparación de Modelos: Permite al usuario elegir y comparar dinámicamente el rendimiento de un modelo estadístico (SARIMA) contra un modelo de Machine Learning (XGBoost).
-
-Pronóstico Dinámico: Filtra las ventas por Categoría y Región para generar pronósticos personalizados.
-
-Validación de Precisión: Utiliza backtesting para calcular y mostrar métricas de error (MAPE y RMSE) para cada modelo, justificando la selección del modelo más preciso.
-
-Análisis Exploratorio (EDA): Incluye un notebook (.ipynb) que analiza la serie de tiempo para identificar tendencia y estacionalidad, justificando la elección de los modelos.
-
-Arquitectura del Proyecto
-
-El proyecto está organizado en una estructura modular de 3 capas para una clara separación de responsabilidades.
+Este proyecto es una solución integral de Business Intelligence y Machine Learning diseñada para predecir la demanda futura de una cadena de retail, utilizando como base el dataset "Superstore". El sistema permite a la gerencia tomar decisiones proactivas sobre la gestión de inventario basándose en el análisis de datos históricos y modelos predictivos avanzados.
 
 
 
+## Tabla de Contenidos
+1. [Descripción del Proyecto](#descripción-del-proyecto)
+2. [Características Principales](#características-principales)
+3. [Arquitectura Técnica](#arquitectura-técnica)
+4. [Instalación y Ejecución](#instalación-y-ejecución)
+5. [Modelos Utilizados](#modelos-utilizados)
+6. [Capturas de Pantalla](#capturas-de-pantalla)
 
-Tecnologías Utilizadas
 
-Python 3.11+
 
-Backend (API): FastAPI, Uvicorn
+## Descripción del Proyecto
 
-Frontend (Dashboard): Streamlit
+La gestión eficiente de inventario representa un desafío crítico en el sector retail: el exceso de stock genera costos de almacenamiento y capital inmovilizado, mientras que la falta de stock resulta en pérdida de ventas y clientes. Este sistema aborda dicha problemática mediante:
 
-Modelado y Data Science:
+* **Análisis Histórico:** Exploración profunda de 4 años de transacciones para identificar tendencias y estacionalidad.
+* **Predicción de Demanda:** Generación de pronósticos a 12 meses (o intervalos personalizados) para anticipar los requerimientos de stock.
+* **Segmentación de Negocio:** Análisis granular filtrado por Región Geográfica y Categoría de Producto.
 
-Pandas (para manipulación de datos)
+El proyecto fue desarrollado como parte del Seminario de Titulación (Analítica con Python).
 
-Statsmodels (para el modelo SARIMA)
 
-XGBoost (para el modelo de Gradient Boosting)
 
-Scikit-learn (para métricas y preprocesamiento de ML)
+## Características Principales
 
-Jupyter Notebook (para el Análisis Exploratorio)
+### 1. Dashboard Interactivo (Frontend)
+* **Panel de Pronóstico:** Selección dinámica de modelos predictivos (SARIMA vs XGBoost), horizonte de tiempo y filtros de negocio.
+* **Visión General (KPIs):** Visualización de métricas ejecutivas en tiempo real, incluyendo Ventas Totales, Margen de Ganancia y Ticket Promedio.
+* **Análisis Detallado:** Mapas de calor para rentabilidad geográfica, gráficos de participación de mercado y rankings de productos por desempeño.
 
-Soporte de Archivos: openpyxl, xlrd
+### 2. API Robusta (Backend)
+* Arquitectura desacoplada basada en **FastAPI**.
+* Endpoints dedicados para la configuración del sistema, cálculo de KPIs y generación de pronósticos bajo demanda.
+* Procesamiento eficiente de series de tiempo utilizando **Pandas**.
 
-Cómo Ejecutar el Proyecto
 
-Para ejecutar esta aplicación, necesitarás tener dos terminales abiertas simultáneamente: una para el Backend (API) y otra para el Frontend (Dashboard).
 
-1. Configuración Inicial (Solo la primera vez)
+## Arquitectura Técnica
 
-Clonar/Descargar: Asegúrate de que todos los archivos del proyecto estén en la carpeta Proyecto_seminario.
+El proyecto implementa una arquitectura de microservicios simplificada, separando la lógica de negocio de la capa de presentación.
 
-Abrir Terminal: Abre una terminal en la carpeta raíz del proyecto.
 
-Crear Entorno Virtual:
+## Instalación y Ejecución
+Siga los siguientes pasos para ejecutar el proyecto en un entorno local.
 
+Prerrequisitos
+Python 3.8 o superior
+
+Git
+
+1. Clonar el repositorio
+Bash
+
+git clone [https://github.com/dev-x-mj/titulacion_g4.git](https://github.com/dev-x-mj/titulacion_g4.git)
+
+cd titulacion_g4
+2. Configurar el entorno virtual
+Bash
+
+# Windows
 python -m venv venv
+.\venv\Scripts\activate
 
-
-Activar Entorno Virtual (Windows):
-
-.\venv\Scripts\Activate
-
-
-Instalar Dependencias:
+# Mac/Linux
+python3 -m venv venv
+source venv/bin/activate
+3. Instalar dependencias
+Bash
 
 pip install -r requirements.txt
+4. Ejecutar la Aplicación
+El sistema requiere la ejecución simultánea del backend y el frontend en dos terminales separadas.
 
+Terminal 1: Backend (API)
 
-2. Ejecución (Cada vez que inicies)
+Bash
 
-Terminal 1: Iniciar el Backend (API)
+uvicorn backend.main:app --reload
+El backend iniciará en: http://127.0.0.1:8000
 
-Abre una terminal en la raíz del proyecto.
+Terminal 2: Frontend (Dashboard)
 
-Activa el entorno: .\venv\Scripts\Activate
+Bash
 
-Inicia el servidor Uvicorn:
+streamlit run frontend/app.py
+El dashboard se abrirá automáticamente en el navegador predeterminado.
 
-uvicorn api_service:app --reload
+Modelos Utilizados
+El sistema implementa y compara dos enfoques metodológicos distintos para el pronóstico de series de tiempo:
 
+1. SARIMA (Seasonal ARIMA)
+Justificación: El Análisis Exploratorio de Datos (EDA) reveló una fuerte estacionalidad anual (Lag 12) y una tendencia creciente en las ventas.
 
-Espera a ver el mensaje: Uvicorn running on http://127.0.0.1:8000
+Configuración: Se utiliza un componente de diferenciación (d=1), validado mediante la prueba de Dickey-Fuller, junto con componentes estacionales mensuales.
 
-Deja esta terminal abierta.
+Aplicación: Ideal para series de tiempo con patrones históricos claros y cíclicos.
 
-Terminal 2: Iniciar el Frontend (Dashboard)
+2. XGBoost (Extreme Gradient Boosting)
+Justificación: El análisis de autocorrelación permitió transformar el problema de series de tiempo en un problema de aprendizaje supervisado.
 
-Abre una NUEVA terminal en la raíz del proyecto.
+Feature Engineering: Se generan variables de rezago (Lags) dinámicas según la frecuencia seleccionada (Mensual/Trimestral) para capturar la memoria de la serie.
 
-Activa el entorno: .\venv\Scripts\Activate
-
-Inicia el servidor de Streamlit:
-
-streamlit run app.py
+Aplicación: Eficaz para capturar relaciones no lineales y adaptarse a cambios abruptos en la demanda.
+___
+Autor: Christian Masaquiza Jerez, Seminario de Titulación 2025

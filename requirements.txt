@@ -1,21 +1,30 @@
---- Backend API ---
-
+# --- Backend (API) ---
 fastapi
-uvicorn[standard]
+uvicorn
 pydantic
 
---- Frontend Dashboard ---
-
+# --- Frontend (Dashboard) ---
 streamlit
 requests
 
---- Data Science & Modeling ---
-
+# --- Procesamiento de Datos ---
 pandas
-statsmodels
-matplotlib
-
---- Excel File Support ---
-
+numpy
+# Necesario para leer archivos .xls antiguos (como Superstore)
+xlrd>=2.0.1
+# Necesario para archivos .xlsx modernos (por si acaso)
 openpyxl
-xlrd
+
+# --- Modelos y Machine Learning ---
+statsmodels
+xgboost
+scikit-learn
+
+# --- Visualización ---
+plotly
+matplotlib
+seaborn
+
+# --- Notebooks ---
+jupyter
+ipykernel
