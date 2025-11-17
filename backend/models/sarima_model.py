@@ -1,5 +1,3 @@
-# Contenido para: backend/models/sarima_model.py
-
 import pandas as pd
 import numpy as np
 import statsmodels.api as sm

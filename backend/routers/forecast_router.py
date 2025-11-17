@@ -1,5 +1,3 @@
-# Contenido para: backend/routers/forecast_router.py
-
 from fastapi import APIRouter, Query, HTTPException
 from typing import Dict
 import pandas as pd

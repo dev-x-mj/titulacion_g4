@@ -1,5 +1,3 @@
-# Contenido para: frontend/tabs/kpi_tab.py
-
 import streamlit as st
 from api_client import fetch_global_kpis
 from ui_utils import display_kpi_cards 

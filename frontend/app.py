@@ -1,5 +1,3 @@
-# Contenido para: frontend/app.py
-
 import streamlit as st
 
 from api_client import fetch_config

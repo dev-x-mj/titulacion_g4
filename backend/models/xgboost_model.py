@@ -1,5 +1,3 @@
-# Contenido para: backend/models/xgboost_model.py
-
 import numpy as np
 import pandas as pd
 from xgboost import XGBRegressor

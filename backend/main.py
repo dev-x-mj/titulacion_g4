@@ -1,5 +1,3 @@
-# Contenido para: backend/main.py
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # Importamos TODOS nuestros routers
@@ -29,4 +27,4 @@ def read_root():
 # Esto conecta todos los endpoints
 app.include_router(config_router.router)
 app.include_router(kpi_router.router)
-app.include_router(forecast_router.router) # <-- Esta línea es la clave
+app.include_router(forecast_router.router)

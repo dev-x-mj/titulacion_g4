@@ -1,5 +1,3 @@
-# Contenido para: backend/config.py
-
 from fastapi import HTTPException
 # Importamos la función de carga desde su nueva ubicación
 from backend.data_processing import load_data 
@@ -28,4 +26,4 @@ else:
 # Función helper para verificar el estado de los datos en los routers
 def check_data_loaded():
     if DF_RAW is None:
-        raise HTTPException(status_code=500, detail=f"Datos no cargados. Razón: {STATUS}") # [fuente: 698, 699, 700]
+        raise HTTPException(status_code=500, detail=f"Datos no cargados. Razón: {STATUS}") 

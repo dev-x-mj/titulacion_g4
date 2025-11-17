@@ -1,10 +1,8 @@
-# Contenido para: backend/routers/kpi_router.py
-
 from fastapi import APIRouter, HTTPException
 from typing import Dict
 # Importamos los datos crudos y el chequeo
 from backend.config import DF_RAW, check_data_loaded
-# ¡Importante! Importamos las funciones de servicio
+#  Importamos las funciones de servicio
 from backend.services.kpi_service import calculate_global_kpis, get_regional_analysis
 
 router = APIRouter(
@@ -19,7 +17,7 @@ def global_kpis_endpoint():
     """
     check_data_loaded()
     
-    # --- ¡ESTA ES LA PARTE CLAVE! ---
+    
     # 1. Calculamos los KPIs
     kpis = calculate_global_kpis(DF_RAW)
     # 2. Calculamos el análisis regional

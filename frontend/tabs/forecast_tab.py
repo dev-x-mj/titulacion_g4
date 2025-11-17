@@ -1,5 +1,3 @@
-# Contenido para: frontend/tabs/forecast_tab.py
-
 import streamlit as st
 # Importamos desde los otros archivos del frontend (¡IDO!)
 from api_client import fetch_forecast

@@ -1,5 +1,3 @@
-# Contenido para: frontend/ui_utils.py
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -19,7 +17,7 @@ state_code_map = {
     'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY', 'District of Columbia': 'DC'
 }
 
-# --- Tarjetas KPI (Helper) ---
+# --- Tarjetas KPI  ---
 def fancy_metric_card(label, value, help_text, icon="", color="#4CAF50"):
     st.markdown(f"""
     <div style="
@@ -38,7 +36,7 @@ def fancy_metric_card(label, value, help_text, icon="", color="#4CAF50"):
     </div>
     """, unsafe_allow_html=True)
 
-# --- PESTAÑA 1 
+# --- PESTAÑA 1 ---
 def display_metrics(metrics, title="Evaluación de Precisión"):
     st.subheader(f"{title}")
     col1, col2 = st.columns(2)
@@ -92,7 +90,7 @@ def display_forecast_chart_and_table(forecast_data):
         na_rep="-"
     ), use_container_width=True)
 
-# --- PESTAÑA 2 
+# PESTAÑA 2 
 def display_kpi_cards(kpis):
     """
     Renderiza solo las tarjetas de KPIs para la Visión General.
@@ -121,16 +119,17 @@ def display_kpi_cards(kpis):
         with col:
             fancy_metric_card(label, value, help_text, icon, color)
             
-# --- Fila 3: KPIs de Logística y Operaciones ---
+    # Fila 3
     row3_col1, row3_col2 = st.columns(2)
     cards_row3 = [
-        (row3_col1, "Tiempo Prom. de Envio", f"{kpis['avg_shipping_time']:.1f} Días", "", "#8E24AA"),
-        (row3_col2, "Región con más ventas", kpis['top_region'], "", "#D81B60")
+        (row3_col1, "Tiempo Prom. de Envio", f"{kpis['avg_shipping_time']:.1f} Días", "Tiempo Prom. de Envio del dataset.", "", "#8E24AA"),
+        (row3_col2, "Región Principal", kpis['top_region'], "Región con más ventas", "", "#D81B60") 
     ]
-    for col, label, value, icon, color in cards_row3:
+    for col, label, value, help_text, icon, color in cards_row3:
         with col:
-            fancy_metric_card(label, value, f"{label} del dataset.", icon, color)
-# --- PESTAÑA 3 
+            fancy_metric_card(label, value, help_text, icon, color)
+
+# --- PESTAÑA 3 (Función Actualizada - Diseño Vertical) ---
 def display_detailed_charts(kpis):
     """
     Renderiza todos los mapas y GRÁFICOS para el Análisis Detallado.
@@ -139,7 +138,7 @@ def display_detailed_charts(kpis):
     # --- Sección 1: Análisis Geográfico (¿Dónde?) ---
     st.subheader("Análisis Geográfico (¿Dónde?)")
     
-    # Mapa de rentabilidad
+    # 1. Mapa de rentabilidad (Ocupa todo el ancho)
     profit_state_df = pd.DataFrame(list(kpis['profit_by_state'].items()), columns=['State', 'Profit'])
     profit_state_df['code'] = profit_state_df['State'].map(state_code_map)
     
@@ -150,19 +149,35 @@ def display_detailed_charts(kpis):
         color='Profit',
         scope="usa",
         color_continuous_scale=px.colors.diverging.RdYlGn,
-        
         custom_data=['State'] 
     )
-    
     
     fig_map.update_traces(hovertemplate="<b>%{customdata[0]}</b><br>Ganancia: $%{z:,.2f}<extra></extra>")
     fig_map.update_layout(
         title_text="Rentabilidad por Estado",
-        title_x=0.35,
+        title_x=0.5,
         geo=dict(lakecolor='rgb(255,255,255)'),
         margin={"r":0,"t":40,"l":0,"b":0}
     )
     st.plotly_chart(fig_map, use_container_width=True)
+        
+    # 2. Gráfico de Anillo: Participación por Región 
+    df_region = pd.DataFrame(list(kpis['sales_by_region'].items()), columns=['Región', 'Ventas'])
+    
+    fig_region_donut = px.pie(
+        df_region, 
+        names='Región', 
+        values='Ventas', 
+        title='Participación por Región', 
+        hole=0.4,
+        color_discrete_sequence=px.colors.qualitative.Pastel
+    )
+    fig_region_donut.update_traces(
+        textposition='inside', 
+        textinfo='percent+label',
+        hovertemplate="<b>%{label}</b><br>Ventas: $%{value:,.2f}<br>%{percent} del total<extra></extra>"
+    )
+    st.plotly_chart(fig_region_donut, use_container_width=True)
 
     # Gráficos de Barras para Estados
     col1, col2 = st.columns(2)
