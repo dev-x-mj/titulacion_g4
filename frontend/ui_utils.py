@@ -144,7 +144,7 @@ def display_detailed_charts(kpis):
     """
     
     # --- Sección 1: Análisis Geográfico (¿Dónde?) ---
-    st.subheader("Análisis Geográfico (¿Dónde?)")
+    st.subheader("Análisis Geográfico")
     
     # 1. Mapa de rentabilidad 
     profit_state_df = pd.DataFrame(list(kpis['profit_by_state'].items()), columns=['State', 'Profit'])
@@ -227,8 +227,8 @@ def display_detailed_charts(kpis):
 
     st.divider()
 
-    # --- Sección 2: Análisis de Producto (¿Qué?) ---
-    st.subheader("Análisis de Producto (¿Qué se vende?)")
+    # --- Sección 2: Análisis de Producto ---
+    st.subheader("Rentabilidad por Producto")
     
     # Gráficos de Barras para Productos
     df_top_prod = pd.DataFrame(list(kpis['top_10_products_profit'].items()), columns=['Producto', 'Ganancia'])
@@ -263,8 +263,8 @@ def display_detailed_charts(kpis):
 
     st.divider()
 
-    # --- Sección 3: Análisis de Categoría (¿Por qué?) ---
-    st.subheader("Análisis de Categoría (¿Por qué?)")
+    # --- Sección 3: Análisis de Categoría ---
+    st.subheader("Análisis de Categoría")
     
     # Gráfico de Anillo para Ventas por Categoría
     df_cat = pd.DataFrame(list(kpis['sales_by_category'].items()), columns=['Categoría', 'Ventas'])
