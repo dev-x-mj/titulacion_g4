@@ -1,5 +1,5 @@
 import streamlit as st
-# Importamos desde los otros archivos del frontend (¡IDO!)
+# Importamos desde los otros archivos del frontend 
 from api_client import fetch_forecast
 from ui_utils import display_metrics, display_forecast_chart_and_table
 
