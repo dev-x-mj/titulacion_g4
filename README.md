@@ -18,8 +18,6 @@ Este proyecto es una solución integral de Business Intelligence y Machine Learn
 3. [Arquitectura Técnica](#arquitectura-técnica)
 4. [Instalación y Ejecución](#instalación-y-ejecución)
 5. [Modelos Utilizados](#modelos-utilizados)
-6. [Capturas de Pantalla](#capturas-de-pantalla)
-
 
 
 ## Descripción del Proyecto
@@ -98,7 +96,7 @@ Bash
 streamlit run frontend/app.py
 El dashboard se abrirá automáticamente en el navegador predeterminado.
 
-Modelos Utilizados
+## Modelos Utilizados
 El sistema implementa y compara dos enfoques metodológicos distintos para el pronóstico de series de tiempo:
 
 1. SARIMA (Seasonal ARIMA)
