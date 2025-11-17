@@ -61,8 +61,8 @@ def fetch_forecast(category, region, model_type, steps, frequency_code):
             "model_type": model_type.lower(), 
             "category": category, 
             "region": region,
-            "steps": steps,            # <-- MODIFICADO
-            "frequency": frequency_code # <-- NUEVO
+            "steps": steps,          
+            "frequency": frequency_code 
         })
         forecast_response.raise_for_status()
         forecast_data = forecast_response.json()
