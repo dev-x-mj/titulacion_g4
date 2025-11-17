@@ -31,7 +31,6 @@ La gestión eficiente de inventario representa un desafío crítico en el sector
 El proyecto fue desarrollado como parte del Seminario de Titulación (Analítica con Python).
 
 
-
 ## Características Principales
 
 ### 1. Dashboard Interactivo (Frontend)
@@ -71,16 +70,21 @@ Bash
 
 # Windows
 python -m venv venv
+
 .\venv\Scripts\activate
 
 # Mac/Linux
 python3 -m venv venv
+
 source venv/bin/activate
+
 3. Instalar dependencias
 Bash
 
 pip install -r requirements.txt
+
 4. Ejecutar la Aplicación
+
 El sistema requiere la ejecución simultánea del backend y el frontend en dos terminales separadas.
 
 Terminal 1: Backend (API)
@@ -88,6 +92,7 @@ Terminal 1: Backend (API)
 Bash
 
 uvicorn backend.main:app --reload
+
 El backend iniciará en: http://127.0.0.1:8000
 
 Terminal 2: Frontend (Dashboard)
@@ -95,6 +100,7 @@ Terminal 2: Frontend (Dashboard)
 Bash
 
 streamlit run frontend/app.py
+
 El dashboard se abrirá automáticamente en el navegador predeterminado.
 
 ## Modelos Utilizados
