@@ -5,8 +5,8 @@ def render_detailed_tab():
     """
     Renderiza la pestaña de Análisis Detallado.
     """
-    st.title(" Análisis Detallado (Mapas y Tablas)")
-    st.markdown("Análisis profundo de geografía, productos y categorías.")
+    st.title("Análisis Detallado del Negocio")
+    st.markdown("Visión profunda de rentabilidad por geografía, productos y segmentos.")
     
     kpi_response = fetch_global_kpis()
     

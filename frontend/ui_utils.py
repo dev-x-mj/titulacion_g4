@@ -103,7 +103,7 @@ def display_kpi_cards(kpis):
     """
     Renderiza solo las tarjetas de KPIs para la Visión General.
     """
-    st.subheader("Indicadores Clave de Rendimiento (Global)")
+    #st.subheader("Indicadores Clave de Rendimiento (Global)")
     
     # Fila 1
     row1_col1, row1_col2, row1_col3 = st.columns(3)
