@@ -66,11 +66,15 @@ def display_forecast_chart_and_table(forecast_data):
     
     df_forecast = df_forecast.rename(columns={'Sales Forecast': forecast_col_name})
     
+    # Verificamos si la columna existe Y si tiene algún valor que no sea NaN o None
+    has_bounds = 'Lower Bound' in df_forecast.columns and df_forecast['Lower Bound'].notna().any()
+
     df_history = df_history.set_index('Date')
     df_forecast = df_forecast.set_index('Date')
     
+    # Preparar columnas para el GRÁFICO
     chart_cols = ['Ventas Históricas', forecast_col_name]
-    if 'Lower Bound' in df_forecast.columns:
+    if has_bounds:
         chart_cols.extend(['Lower Bound', 'Upper Bound'])
         
     combined_df = pd.concat([df_history, df_forecast[chart_cols[1:]]], axis=1)
@@ -79,17 +83,21 @@ def display_forecast_chart_and_table(forecast_data):
     st.line_chart(combined_df)
     
     st.markdown("### 📈 Tabla de Pronóstico Generado (Primeros 12 Períodos)")
+    
     table_cols = [forecast_col_name]
-    if 'Lower Bound' in df_forecast.columns:
+    format_dict = {forecast_col_name: '${:,.2f}'}
+    
+    if has_bounds:
         table_cols.extend(['Lower Bound', 'Upper Bound'])
+        format_dict['Lower Bound'] = '${:,.2f}'
+        format_dict['Upper Bound'] = '${:,.2f}'
         
     table_df = df_forecast[table_cols].head(12)
-    
-    st.dataframe(table_df.style.format(
-        {forecast_col_name: '${:,.2f}', 'Lower Bound': '${:,.2f}', 'Upper Bound': '${:,.2f}'},
-        na_rep="-"
-    ), use_container_width=True)
 
+    table_df.index = table_df.index.strftime('%Y-%m-%d')
+    
+    st.dataframe(table_df.style.format(format_dict, na_rep="-"), use_container_width=True)
+    
 # PESTAÑA 2 
 def display_kpi_cards(kpis):
     """
@@ -129,7 +137,7 @@ def display_kpi_cards(kpis):
         with col:
             fancy_metric_card(label, value, help_text, icon, color)
 
-# --- PESTAÑA 3 (Función Actualizada - Diseño Vertical) ---
+# --- PESTAÑA 3 
 def display_detailed_charts(kpis):
     """
     Renderiza todos los mapas y GRÁFICOS para el Análisis Detallado.
@@ -138,7 +146,7 @@ def display_detailed_charts(kpis):
     # --- Sección 1: Análisis Geográfico (¿Dónde?) ---
     st.subheader("Análisis Geográfico (¿Dónde?)")
     
-    # 1. Mapa de rentabilidad (Ocupa todo el ancho)
+    # 1. Mapa de rentabilidad 
     profit_state_df = pd.DataFrame(list(kpis['profit_by_state'].items()), columns=['State', 'Profit'])
     profit_state_df['code'] = profit_state_df['State'].map(state_code_map)
     
