@@ -65,6 +65,7 @@ Bash
 git clone [https://github.com/dev-x-mj/titulacion_g4.git](https://github.com/dev-x-mj/titulacion_g4.git)
 
 cd titulacion_g4
+
 2. Configurar el entorno virtual
 Bash
 
