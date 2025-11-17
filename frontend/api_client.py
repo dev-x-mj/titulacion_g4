@@ -39,7 +39,7 @@ def fetch_global_kpis():
         st.error(f"Error al cargar los KPIs globales: {e}")
         return None
 
-# --- MODIFICADO (Paso 4) ---
+
 def fetch_forecast(category, region, model_type, steps, frequency_code):
     """
     Obtiene el pronóstico y la evaluación para los filtros seleccionados.

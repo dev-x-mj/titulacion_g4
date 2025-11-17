@@ -38,7 +38,7 @@ def fancy_metric_card(label, value, help_text, icon="", color="#4CAF50"):
     </div>
     """, unsafe_allow_html=True)
 
-# --- PESTAÑA 1 (Sin cambios) ---
+# --- PESTAÑA 1 
 def display_metrics(metrics, title="Evaluación de Precisión"):
     st.subheader(f"{title}")
     col1, col2 = st.columns(2)
@@ -92,7 +92,7 @@ def display_forecast_chart_and_table(forecast_data):
         na_rep="-"
     ), use_container_width=True)
 
-# --- PESTAÑA 2 (Sin cambios) ---
+# --- PESTAÑA 2 
 def display_kpi_cards(kpis):
     """
     Renderiza solo las tarjetas de KPIs para la Visión General.
@@ -150,7 +150,7 @@ def display_detailed_charts(kpis):
         color='Profit',
         scope="usa",
         color_continuous_scale=px.colors.diverging.RdYlGn,
-        # --- ¡CAMBIO AQUÍ! Usamos custom_data en lugar de hover_name ---
+        
         custom_data=['State'] 
     )
     
