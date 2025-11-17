@@ -79,10 +79,10 @@ def display_forecast_chart_and_table(forecast_data):
         
     combined_df = pd.concat([df_history, df_forecast[chart_cols[1:]]], axis=1)
     
-    st.markdown("### 📊 Histórico vs. Pronóstico")
+    st.markdown("### Histórico vs. Pronóstico")
     st.line_chart(combined_df)
     
-    st.markdown("### 📈 Tabla de Pronóstico Generado (Primeros 12 Períodos)")
+    st.markdown("### Tabla de Pronóstico Generado (Primeros 12 Períodos)")
     
     table_cols = [forecast_col_name]
     format_dict = {forecast_col_name: '${:,.2f}'}
@@ -130,12 +130,12 @@ def display_kpi_cards(kpis):
     # Fila 3
     row3_col1, row3_col2 = st.columns(2)
     cards_row3 = [
-        (row3_col1, "Tiempo Prom. de Envio", f"{kpis['avg_shipping_time']:.1f} Días", "Tiempo Prom. de Envio del dataset.", "", "#8E24AA"),
-        (row3_col2, "Región Principal", kpis['top_region'], "Región con más ventas", "", "#D81B60") 
+        (row3_col1, "Tiempo Prom. de Envio", f"{kpis['avg_shipping_time']:.1f} Días", "", "#8E24AA"),
+        (row3_col2, "Región con más ventas", kpis['top_region'], "", "#D81B60")
     ]
-    for col, label, value, help_text, icon, color in cards_row3:
+    for col, label, value, icon, color in cards_row3:
         with col:
-            fancy_metric_card(label, value, help_text, icon, color)
+            fancy_metric_card(label, value, f"{label} del dataset.", icon, color)
 
 # --- PESTAÑA 3 
 def display_detailed_charts(kpis):
@@ -163,7 +163,7 @@ def display_detailed_charts(kpis):
     fig_map.update_traces(hovertemplate="<b>%{customdata[0]}</b><br>Ganancia: $%{z:,.2f}<extra></extra>")
     fig_map.update_layout(
         title_text="Rentabilidad por Estado",
-        title_x=0.5,
+        title_x=0.35,
         geo=dict(lakecolor='rgb(255,255,255)'),
         margin={"r":0,"t":40,"l":0,"b":0}
     )

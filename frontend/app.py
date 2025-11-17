@@ -25,9 +25,9 @@ def main():
     if config:
         # Crear las pestañas
         tab1, tab2, tab3 = st.tabs([
-            "📊 Pronóstico de Ventas",
-            "🌍 KPIs Globales",
-            "📈 Análisis Detallado"
+            "Pronóstico de Ventas",
+            "KPIs Globales",
+            "Análisis Detallado"
         ])
 
         # Renderizar cada pestaña

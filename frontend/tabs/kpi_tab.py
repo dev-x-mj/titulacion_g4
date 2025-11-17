@@ -6,7 +6,7 @@ def render_kpi_tab():
     """
     Renderiza la pestaña de KPIs Globales.
     """
-    st.title("📊 Visión General (KPIs)")
+    st.title(" Visión General (KPIs)")
     st.markdown("Métricas clave de rendimiento (KPIs) a nivel de todo el dataset, sin filtros.")
     
     kpi_response = fetch_global_kpis()

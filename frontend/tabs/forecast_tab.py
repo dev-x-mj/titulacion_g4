@@ -7,7 +7,7 @@ def render_forecast_tab(config):
     """
     Renderiza la pestaña de Pronóstico de Ventas.
     """
-    st.title("🔮 Demand Planning: Dashboard de Pronóstico de Ventas")
+    st.title(" Demand Planning: Dashboard de Pronóstico de Ventas")
 
     # --- Sidebar de Filtros ---
     st.sidebar.header("Configuración del Pronóstico")
