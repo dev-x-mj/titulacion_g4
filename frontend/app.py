@@ -15,11 +15,28 @@ st.set_page_config(
 #Ocultar alementos por defecto de la plantilla
 hide_streamlit_style = """
             <style>
-            MainMenu {visibility: hidden;}
+            #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
+            
+            /* ---  Ocultar la barra de herramientas de las tablas (el botón pequeño de descarga) --- */
+            [data-testid="stElementToolbar"] {
+                display: none;
+            }
+            
+            /* --- REGLAS SOLO PARA IMPRESIÓN --- */
+            @media print {
+                [data-testid="stSidebar"] { display: none; }
+                .stDeployButton { display: none; }
+                .block-container {
+                    max-width: 100% !important;
+                    padding: 1rem !important;
+                }
+                .stPlotlyChart { break-inside: avoid; }
+            }
             </style>
             """
+            
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # 3. Función Principal
