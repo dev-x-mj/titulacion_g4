@@ -66,23 +66,24 @@ def display_forecast_chart_and_table(forecast_data):
     
     df_forecast = df_forecast.rename(columns={'Sales Forecast': forecast_col_name})
     
-    # Verificamos si la columna existe Y si tiene algún valor que no sea NaN o None
+    # Detectar si hay intervalos
     has_bounds = 'Lower Bound' in df_forecast.columns and df_forecast['Lower Bound'].notna().any()
 
     df_history = df_history.set_index('Date')
     df_forecast = df_forecast.set_index('Date')
     
-    # Preparar columnas para el GRÁFICO
     chart_cols = ['Ventas Históricas', forecast_col_name]
     if has_bounds:
         chart_cols.extend(['Lower Bound', 'Upper Bound'])
         
     combined_df = pd.concat([df_history, df_forecast[chart_cols[1:]]], axis=1)
     
+    # Gráfico
     st.markdown("### Histórico vs. Pronóstico")
     st.line_chart(combined_df)
     
-    st.markdown("### Tabla de Pronóstico Generado (Primeros 12 Períodos)")
+    # Tabla
+    st.markdown("### Tabla de Pronóstico (Próximos 12 Períodos)")
     
     table_cols = [forecast_col_name]
     format_dict = {forecast_col_name: '${:,.2f}'}
@@ -93,11 +94,25 @@ def display_forecast_chart_and_table(forecast_data):
         format_dict['Upper Bound'] = '${:,.2f}'
         
     table_df = df_forecast[table_cols].head(12)
-
+    
+    # Formato limpio de fecha
     table_df.index = table_df.index.strftime('%Y-%m-%d')
     
+    # Mostramos la tabla
     st.dataframe(table_df.style.format(format_dict, na_rep="-"), use_container_width=True)
+
     
+    # Convertimos el dataframe a CSV para descargarlo
+    csv = table_df.to_csv(sep=';', decimal=',').encode('utf-8-sig')
+    
+    #Botón para descargar la tabla
+    st.download_button(
+        label=" Descargar Tabla como CSV (Excel)",
+        data=csv,
+        file_name=f'pronostico_{model_name.lower()}.csv',
+        mime='text/csv',
+        key='download-csv'
+    )
 # PESTAÑA 2 
 def display_kpi_cards(kpis):
     """
