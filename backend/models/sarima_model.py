@@ -3,39 +3,45 @@ import numpy as np
 import statsmodels.api as sm
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-
 def get_sarima_forecast(ts_history, steps=12, frequency_code="ME"):
     """
     Entrena el modelo SARIMA y genera el pronóstico de 'steps' períodos futuros.
-    La estacionalidad (S=12, S=4) se adapta a la frecuencia.
+    La estacionalidad (S) se adapta dinámicamente o se desactiva si es Anual.
     """
     
-    # 1. Lógica de Estacionalidad Dinámica 
+    # 1. Lógica de Estacionalidad Dinámica
     if frequency_code == "ME":
         seasonal_period = 12 
         min_periods = 24 # 2 años de datos
+        # (P, D, Q, s) Estacionalidad de 12 meses
+        seasonal_order = (0, 1, 1, 12)
+        
     elif frequency_code == "QE":
         seasonal_period = 4 # 4 trimestres
         min_periods = 8 # 2 años de datos
-    else: # Anual (AE)
-        seasonal_period = 1 # Sin estacionalidad
+        # (P, D, Q, s)  Estacionalidad de 4 trimestres
+        seasonal_order = (0, 1, 1, 4)
+        
+    else: # Anual (AE) o cualquier otro
+        seasonal_period = 1 
         min_periods = 3 # 3 años de datos
+       
+        # Para anual, NO hay estacionalidad. Usamos (0,0,0,0) para evitar el error del API.
+        seasonal_order = (0, 0, 0, 0) 
 
     try:
         # 2. Validación Dinámica
         if len(ts_history) < min_periods:
             return None, f"Datos insuficientes para SARIMA (se requieren > {min_periods} períodos para la frecuencia {frequency_code})."
         
-        # Parámetros SARIMA
+        # Parámetros ARIMA (Base)
         order = (0, 1, 1)
-        # 3. seasonal_order ahora es dinámico
-        seasonal_order = (0, 1, 1, seasonal_period)
         
         # Entrenar el modelo
         model = SARIMAX(
             ts_history,
             order=order,
-            seasonal_order=seasonal_order,
+            seasonal_order=seasonal_order, # Ahora es seguro para anual
             enforce_stationarity=False,
             enforce_invertibility=False
         )
@@ -60,33 +66,44 @@ def get_sarima_forecast(ts_history, steps=12, frequency_code="ME"):
             
         final_cols = ['Sales Forecast', 'Lower Bound', 'Upper Bound']
         forecast_df = forecast_df[final_cols].astype(float).round(2)
+        
+        
+        # Recortar negativos también en los límites para que el JSON se vea profesional
         forecast_df['Sales Forecast'] = forecast_df['Sales Forecast'].clip(lower=0)
+        if 'Lower Bound' in forecast_df.columns:
+            forecast_df['Lower Bound'] = forecast_df['Lower Bound'].clip(lower=0)
+        if 'Upper Bound' in forecast_df.columns:
+            forecast_df['Upper Bound'] = forecast_df['Upper Bound'].clip(lower=0)
         
         return forecast_df, "Success"
     
     except Exception as e:
         return None, f"Error en el entrenamiento SARIMA: {e}"
 
-
 def run_backtest_sarima(ts_history, frequency_code="ME"):
     """
     Realiza un backtest del modelo SARIMA.
-    El período de prueba se adapta a la frecuencia (1 año de datos).
     """
     
-    # 1. Lógica de Períodos Dinámica 
+    # 1. Lógica de Estacionalidad Dinámica
     if frequency_code == "ME":
         seasonal_period = 12
         min_periods = 24
-        test_periods = 12 # Probar con 12 meses
+        test_periods = 12
+        seasonal_order = (0, 1, 1, 12)
+        
     elif frequency_code == "QE":
         seasonal_period = 4
         min_periods = 8
-        test_periods = 4 # Probar con 4 trimestres
+        test_periods = 4
+        seasonal_order = (0, 1, 1, 4)
+        
     else: # Anual (AE)
         seasonal_period = 1
         min_periods = 3
-        test_periods = 1 # Probar con 1 año
+        test_periods = 1
+       
+        seasonal_order = (0, 0, 0, 0)
 
     # 2. Validación Dinámica
     if len(ts_history) < (min_periods + test_periods):
@@ -102,13 +119,11 @@ def run_backtest_sarima(ts_history, frequency_code="ME"):
     try:
         # Parametros
         order = (0, 1, 1)
-        # 3. seasonal order ahora es dinámico
-        seasonal_order = (0, 1, 1, seasonal_period)
         
         model = SARIMAX(
             train_data,
             order=order,
-            seasonal_order=seasonal_order,
+            seasonal_order=seasonal_order, # Seguro para anual
             enforce_stationarity=False,
             enforce_invertibility=False
         )

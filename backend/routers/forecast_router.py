@@ -18,7 +18,7 @@ def sales_forecast_endpoint(
     category: str = Query("All Categories", description="Categoría del producto."),
     region: str = Query("All Regions", description="Región geográfica."),
     steps: int = Query(12, description="Número de períodos a pronosticar."),
-    frequency: str = Query("M", description="Frecuencia (M, Q, A)")
+    frequency: str = Query("ME", description="Frecuencia (ME, QE, AE)")
 ):
     """
     Endpoint dinámico que genera un pronóstico futuro usando el modelo seleccionado.
@@ -55,7 +55,7 @@ def sales_evaluation_endpoint(
     model_type: str = Query("sarima", description="El modelo a evaluar: 'sarima' o 'xgboost'"),
     category: str = Query("All Categories", description="Categoría del producto."),
     region: str = Query("All Regions", description="Región geográfica."),
-    frequency: str = Query("M", description="Frecuencia (M, Q, A)")
+    frequency: str = Query("ME", description="Frecuencia (ME, QE, AE)")
 ):
     """
     Realiza un backtest del modelo seleccionado y devuelve las métricas de error.
